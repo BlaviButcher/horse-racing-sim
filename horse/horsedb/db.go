@@ -97,16 +97,3 @@ func (db *DB) Close() error {
 	})
 	return err
 }
-
-// wb writes a batch of items to the database
-func (db DB) wb(f func(*badger.WriteBatch) error) error {
-	wb := db.DB.NewWriteBatch()
-	defer wb.Cancel()
-	if err := f(wb); err != nil {
-		return err
-	}
-	if err := wb.Flush(); err != nil {
-		return fmt.Errorf("flushing write batch: %w", err)
-	}
-	return nil
-}

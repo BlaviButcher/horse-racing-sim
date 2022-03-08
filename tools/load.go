@@ -19,10 +19,10 @@ var load = &cobra.Command{
 	File must be of *.txt and contain a single name for each line.
 	The program will automatically supply and ID and MMR rating`,
 	Args: cobra.MinimumNArgs(1),
-	RunE: Run(),
+	RunE: Load(),
 }
 
-func Run() func(cmd *cobra.Command, args []string) error {
+func Load() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		opts := loadCLIOpts{}
 		opts.ParseArgs(args)
@@ -33,7 +33,15 @@ func Run() func(cmd *cobra.Command, args []string) error {
 		}
 		defer database.Close()
 
-		opts.GetRecords()
+		horses, err := opts.GetRecords()
+		if err != nil {
+			return fmt.Errorf("getting horses %w", err)
+		}
+
+		err = database.SetHorses(horses...)
+		if err != nil {
+			return fmt.Errorf("setting horses: %w", err)
+		}
 
 		return nil
 

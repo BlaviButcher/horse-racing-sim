@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	horseKeyPrefix byte = iota
+	HorseKeyPrefix byte = iota
 )
 
 type Key interface {
@@ -30,9 +30,8 @@ func NewHorseKey(k xid.ID) HorseKey {
 }
 
 // Makes HorseKey into horsekey with correct prefix
-//TODO: why hand in to?
 func (k HorseKey) Key(to []byte) []byte {
-	to = append(to, horseKeyPrefix)
+	to = append(to, HorseKeyPrefix)
 	to = append(to, k.HorseID[:]...)
 	return to
 }
