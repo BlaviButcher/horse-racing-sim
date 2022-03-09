@@ -88,12 +88,8 @@ func (f *Field) postRaceMMRAdjustment() {
 
 		for j, opponentHorse := range f.RaceResults {
 			if j < i && placedHorse.AvgMMR < opponentHorse.AvgMMR {
-
-				// should be adding the diff of placedHorse avg and oppenentHorse avg
-				totalSuperiorToMMR += (opponentHorse.AvgMMR - placedHorse.AvgMMR)
 				totalSuperiorToMMR++
 			} else if j > i && placedHorse.AvgMMR > opponentHorse.AvgMMR {
-				totalInferiorToMMR += (placedHorse.AvgMMR - opponentHorse.AvgMMR)
 				totalInferiorCount++
 			}
 		}
@@ -109,7 +105,7 @@ func (f *Field) postRaceMMRAdjustment() {
 
 		totalSuperiorToMMR = totalSuperiorToMMR / totalSuperiorCount
 		totalInferiorToMMR = totalInferiorToMMR / totalInferiorCount
-		placedHorse.MMRChange = (totalSuperiorToMMR - totalInferiorToMMR) + 1
+		placedHorse.MMRChange = (totalSuperiorToMMR - totalInferiorToMMR) + i
 
 	}
 

@@ -1,12 +1,17 @@
 package horsedb
 
 import (
+	"math/rand"
+
 	"github.com/rs/xid"
 	"github.com/vmihailenco/msgpack/v5"
 )
 
 const HistoryMMRKept = 5
-const StartingMMR = 100
+const MinMMR = 1000
+const MaxMMR = 1500
+const Variance = 25
+const Movement = 1
 
 type Horse struct {
 	ID             xid.ID
@@ -16,22 +21,27 @@ type Horse struct {
 	RawMMR         int // Moves around based on previous race mmr + new change in mmr
 	MMRChange      int
 	WinProbability float64
+	GeneticMMR     int
+	MMRVariance    int
 }
 
 func NewHorse(name string) *Horse {
 
+	startingMMR := rand.Intn(MaxMMR-MinMMR) + MinMMR
+
 	MMR := make([]int, HistoryMMRKept)
 	for i := 0; i < HistoryMMRKept; i++ {
-		MMR[i] = StartingMMR
+		MMR[i] = startingMMR
 	}
 
 	return &Horse{
 		ID:             xid.New(),
 		Name:           name,
 		MMR:            MMR,
-		AvgMMR:         StartingMMR,
-		RawMMR:         StartingMMR,
+		AvgMMR:         startingMMR,
+		RawMMR:         startingMMR,
 		WinProbability: 0,
+		MMRVariance:    Variance,
 	}
 }
 

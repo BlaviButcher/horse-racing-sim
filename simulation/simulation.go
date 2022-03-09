@@ -1,7 +1,6 @@
 package simulation
 
 import (
-	"fmt"
 	"math/rand"
 
 	"github.com/blavi/horse/simulation/field"
@@ -39,13 +38,6 @@ func getNextRaceGroup(horses []*horsedb.Horse) []*horsedb.Horse {
 //TODO: probably need an object of sorts that will store information and hold the current pool of horses also, that we can call from. Rather
 // than passing horse addresses around
 func SimulateFreshHorses(horses []*horsedb.Horse, races int) ([]*horsedb.Horse, error) {
-
-	// check all horses are new
-	for _, h := range horses {
-		if h.AvgMMR != horsedb.StartingMMR {
-			return nil, fmt.Errorf("horse of id %s not ")
-		}
-	}
 
 	for i := 0; i < races; i++ {
 		raceField := field.NewField(getNextRaceGroup(horses))
