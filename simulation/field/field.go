@@ -1,8 +1,6 @@
 package field
 
 import (
-	"fmt"
-
 	"github.com/blavi/horse/simulation/horsedb"
 	"github.com/jmcvetta/randutil"
 	"github.com/rs/xid"
@@ -80,39 +78,51 @@ func (f *Field) postRaceMMRAdjustment() {
 	for i, placedHorse := range f.RaceResults {
 		// total MMR of everyone who lost to horse but had better avgMMR
 		totalSuperiorToMMR := 0
+		totalSuperiorCount := 0
 		// total MMR of everyone who beat horse and had better avgMMR
 		totalInferiorToMMR := 0
+		totalInferiorCount := 0
 
-		// TODO: The bug is here due to the fact that we are making changes to the horses pointers before we are done with the for loop
-		// maybe create a field to hold the change until we are done here
 		for j, opponentHorse := range f.RaceResults {
 			if j < i && placedHorse.AvgMMR < opponentHorse.AvgMMR {
-				fmt.Println(placedHorse.AvgMMR)
-				fmt.Println(opponentHorse.AvgMMR)
+
 				// should be adding the diff of placedHorse avg and oppenentHorse avg
-				totalSuperiorToMMR += opponentHorse.AvgMMR
+				totalSuperiorToMMR += (opponentHorse.AvgMMR - placedHorse.AvgMMR)
+				totalSuperiorToMMR++
 			} else if j > i && placedHorse.AvgMMR > opponentHorse.AvgMMR {
-				totalInferiorToMMR += opponentHorse.AvgMMR
+				totalInferiorToMMR += (placedHorse.AvgMMR - opponentHorse.AvgMMR)
+				totalInferiorCount++
 			}
 		}
-		fmt.Println(totalSuperiorToMMR)
-		// fmt.Println(totalInferiorToMMR)
 
 		// change in MMR plus total horse beaten
-		mmrChange := (totalSuperiorToMMR - totalInferiorToMMR) + i
+		if totalSuperiorCount == 0 {
+			totalSuperiorCount++
+		}
 
+		if totalInferiorCount == 0 {
+			totalInferiorCount++
+		}
+
+		totalSuperiorToMMR = totalSuperiorToMMR / totalSuperiorCount
+		totalInferiorToMMR = totalInferiorToMMR / totalInferiorCount
+		placedHorse.MMRChange = (totalSuperiorToMMR - totalInferiorToMMR) + i
+
+	}
+
+	// update horses outside of loop to avoid bugs
+	for _, h := range f.RaceResults {
 		// slide slice up 1
-		newMMR := placedHorse.MMR[1:]
-		newMMR = append(newMMR, placedHorse.RawMMR+mmrChange)
+		newMMR := h.MMR[1:]
+		newMMR = append(newMMR, h.RawMMR+h.MMRChange)
 
 		// get new average MMR
 		totalMMR := 0
 		for _, mmr := range newMMR {
 			totalMMR += mmr
 		}
-		placedHorse.AvgMMR = totalMMR / len(newMMR)
+		h.AvgMMR = totalMMR / len(newMMR)
 
-		placedHorse.MMR = newMMR
-
+		h.MMR = newMMR
 	}
 }

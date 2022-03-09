@@ -44,7 +44,7 @@ func Load() func(cmd *cobra.Command, args []string) error {
 			return fmt.Errorf("setting horses: %w", err)
 		}
 
-		horses, _ = simulation.SimulateFreshHorses(horses, 1)
+		horses, _ = simulation.SimulateFreshHorses(horses, 1000)
 
 		for _, h := range horses {
 			fmt.Printf("Name: %s\n", h.Name)

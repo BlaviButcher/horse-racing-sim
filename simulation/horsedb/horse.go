@@ -14,6 +14,7 @@ type Horse struct {
 	MMR            []int
 	AvgMMR         int
 	RawMMR         int // Moves around based on previous race mmr + new change in mmr
+	MMRChange      int
 	WinProbability float64
 }
 
