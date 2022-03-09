@@ -7,11 +7,11 @@ import (
 	"github.com/vmihailenco/msgpack/v5"
 )
 
-const HistoryMMRKept = 5
+const HistoryMMRKept = 10
 const MinMMR = 1000
-const MaxMMR = 1500
-const Variance = 25
-const Movement = 1
+const MaxMMR = 3000
+const Variance = 100
+const Movement = 3
 
 type Horse struct {
 	ID             xid.ID
@@ -42,6 +42,7 @@ func NewHorse(name string) *Horse {
 		RawMMR:         startingMMR,
 		WinProbability: 0,
 		MMRVariance:    Variance,
+		GeneticMMR:     startingMMR,
 	}
 }
 

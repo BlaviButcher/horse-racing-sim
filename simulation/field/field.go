@@ -1,8 +1,6 @@
 package field
 
 import (
-	"fmt"
-
 	"github.com/blavi/horse/simulation/horsedb"
 	"github.com/jmcvetta/randutil"
 	"github.com/rs/xid"
@@ -61,7 +59,6 @@ func (f *Field) getNextPlace() {
 		// converting to "4 siginificant figures" when truncated as int
 		choices = append(choices, randutil.Choice{int(h.WinProbability * 10000), h.ID})
 	}
-	fmt.Println(choices)
 
 	choice, _ := randutil.WeightedChoice(choices)
 	id := choice.Item.(xid.ID)
@@ -78,17 +75,14 @@ func (f *Field) getNextPlace() {
 
 func (f *Field) postRaceMMRAdjustment() {
 	for i, placedHorse := range f.RaceResults {
-		fmt.Println(placedHorse.AvgMMR)
 		// total MMR of everyone who lost to horse but had better avgMMR
-		totalSuperiorToMMR := 0
 		totalSuperiorCount := 0
 		// total MMR of everyone who beat horse and had better avgMMR
-		totalInferiorToMMR := 0
 		totalInferiorCount := 0
 
 		for j, opponentHorse := range f.RaceResults {
 			if j < i && placedHorse.AvgMMR < opponentHorse.AvgMMR {
-				totalSuperiorToMMR++
+				totalSuperiorCount++
 			} else if j > i && placedHorse.AvgMMR > opponentHorse.AvgMMR {
 				totalInferiorCount++
 			}
@@ -103,9 +97,7 @@ func (f *Field) postRaceMMRAdjustment() {
 			totalInferiorCount++
 		}
 
-		totalSuperiorToMMR = totalSuperiorToMMR / totalSuperiorCount
-		totalInferiorToMMR = totalInferiorToMMR / totalInferiorCount
-		placedHorse.MMRChange = (totalSuperiorToMMR - totalInferiorToMMR) + i
+		placedHorse.MMRChange = (totalSuperiorCount - totalInferiorCount) * horsedb.Movement
 
 	}
 
@@ -115,13 +107,12 @@ func (f *Field) postRaceMMRAdjustment() {
 		newMMR := h.MMR[1:]
 
 		h.RawMMR += h.MMRChange
-		if h.RawMMR < 1 {
-			h.RawMMR = 1
+		if h.RawMMR < h.GeneticMMR-h.MMRVariance {
+			h.RawMMR = h.GeneticMMR - h.MMRVariance
 		}
-		if h.RawMMR > 5000 {
-			h.RawMMR = 5000
+		if h.RawMMR > h.GeneticMMR+h.MMRVariance {
+			h.RawMMR = h.GeneticMMR + h.MMRVariance
 		}
-		fmt.Println(h.RawMMR)
 		newMMR = append(newMMR, h.RawMMR)
 
 		// get new average MMR
