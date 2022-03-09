@@ -16,7 +16,6 @@ func getNextRaceGroup(horses []*horsedb.Horse) []*horsedb.Horse {
 	if len(horses) < 15 {
 		return horses
 	}
-
 	horseMap := make(map[xid.ID]*horsedb.Horse)
 	horseCount := 0
 	for horseCount < 14 {
@@ -26,7 +25,7 @@ func getNextRaceGroup(horses []*horsedb.Horse) []*horsedb.Horse {
 		}
 
 		horseMap[h.ID] = h
-
+		horseCount++
 	}
 
 	out := make([]*horsedb.Horse, 0, len(horseMap))
@@ -43,7 +42,7 @@ func SimulateFreshHorses(horses []*horsedb.Horse, races int) ([]*horsedb.Horse, 
 
 	// check all horses are new
 	for _, h := range horses {
-		if h.AvgMMR != 1500 {
+		if h.AvgMMR != horsedb.StartingMMR {
 			return nil, fmt.Errorf("horse of id %s not ")
 		}
 	}

@@ -5,8 +5,8 @@ import (
 	"github.com/vmihailenco/msgpack/v5"
 )
 
-const HistoryMMRKept = 10
-const startingMMR = 1500
+const HistoryMMRKept = 5
+const StartingMMR = 100
 
 type Horse struct {
 	ID             xid.ID
@@ -22,15 +22,15 @@ func NewHorse(name string) *Horse {
 
 	MMR := make([]int, HistoryMMRKept)
 	for i := 0; i < HistoryMMRKept; i++ {
-		MMR[i] = startingMMR
+		MMR[i] = StartingMMR
 	}
 
 	return &Horse{
 		ID:             xid.New(),
 		Name:           name,
 		MMR:            MMR,
-		AvgMMR:         startingMMR,
-		RawMMR:         startingMMR,
+		AvgMMR:         StartingMMR,
+		RawMMR:         StartingMMR,
 		WinProbability: 0,
 	}
 }
