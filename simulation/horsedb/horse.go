@@ -5,18 +5,31 @@ import (
 	"github.com/vmihailenco/msgpack/v5"
 )
 
+const HistoryMMRKept = 10
+const startingMMR = 1500
+
 type Horse struct {
 	ID             xid.ID
 	Name           string
-	MMR            int
+	MMR            []int
+	AvgMMR         int
+	RawMMR         int // Moves around based on previous race mmr + new change in mmr
 	WinProbability float64
 }
 
 func NewHorse(name string) *Horse {
+
+	MMR := make([]int, HistoryMMRKept)
+	for i := 0; i < HistoryMMRKept; i++ {
+		MMR[i] = startingMMR
+	}
+
 	return &Horse{
 		ID:             xid.New(),
 		Name:           name,
-		MMR:            1500,
+		MMR:            MMR,
+		AvgMMR:         startingMMR,
+		RawMMR:         startingMMR,
 		WinProbability: 0,
 	}
 }

@@ -43,7 +43,7 @@ func List() func(cmd *cobra.Command, args []string) error {
 			ID:%s
 			Name:%s
 			MMR:%d
-			`, h.ID, h.Name, h.MMR)
+			`, h.ID, h.Name, h.AvgMMR)
 		}
 		return nil
 	}

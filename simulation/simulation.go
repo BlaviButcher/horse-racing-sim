@@ -43,7 +43,7 @@ func SimulateFreshHorses(horses []*horsedb.Horse, races int) ([]*horsedb.Horse, 
 
 	// check all horses are new
 	for _, h := range horses {
-		if h.MMR != 1500 {
+		if h.AvgMMR != 1500 {
 			return nil, fmt.Errorf("horse of id %s not ")
 		}
 	}
