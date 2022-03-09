@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/dgraph-io/badger/v3 v3.2103.2
+	github.com/jmcvetta/randutil v0.0.0-20150817122601-2bb1b664bcff
 	github.com/rs/xid v1.3.0
 	github.com/spf13/cobra v1.3.0
 	github.com/vmihailenco/msgpack/v5 v5.3.5

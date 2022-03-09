@@ -3,7 +3,8 @@ package tools
 import (
 	"fmt"
 
-	"github.com/blavi/horse/horse/horsedb"
+	"github.com/blavi/horse/simulation"
+	"github.com/blavi/horse/simulation/horsedb"
 	"github.com/spf13/cobra"
 )
 
@@ -42,6 +43,8 @@ func Load() func(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return fmt.Errorf("setting horses: %w", err)
 		}
+
+		simulation.SimulateFreshHorses(horses, 300000)
 
 		return nil
 

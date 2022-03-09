@@ -3,7 +3,7 @@ package tools
 import (
 	"fmt"
 
-	"github.com/blavi/horse/horse/horsedb"
+	"github.com/blavi/horse/simulation/horsedb"
 	"github.com/spf13/cobra"
 )
 
@@ -37,10 +37,13 @@ func List() func(cmd *cobra.Command, args []string) error {
 		if err != nil {
 			return fmt.Errorf("listing horses from database: %w", err)
 		}
-		fmt.Println(len(horses))
 
 		for _, h := range horses {
-			fmt.Println(h)
+			fmt.Printf(`
+			ID:%s
+			Name:%s
+			MMR:%d
+			`, h.ID, h.Name, h.MMR)
 		}
 		return nil
 	}

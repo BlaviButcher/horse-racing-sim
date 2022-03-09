@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/blavi/horse/horse/horsedb"
+	"github.com/blavi/horse/simulation/horsedb"
 )
 
 // getRecords opens and reads file into an Animal struct.

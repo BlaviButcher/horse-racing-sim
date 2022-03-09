@@ -6,16 +6,18 @@ import (
 )
 
 type Horse struct {
-	ID   xid.ID
-	name string
-	mmr  int
+	ID             xid.ID
+	Name           string
+	MMR            int
+	WinProbability float64
 }
 
 func NewHorse(name string) *Horse {
 	return &Horse{
-		ID:   xid.New(),
-		name: name,
-		mmr:  1500,
+		ID:             xid.New(),
+		Name:           name,
+		MMR:            1500,
+		WinProbability: 0,
 	}
 }
 
