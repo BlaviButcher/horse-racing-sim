@@ -7,10 +7,10 @@ import (
 	"github.com/vmihailenco/msgpack/v5"
 )
 
-const HistoryMMRKept = 10
+const HistoryMMRKept = 50
 const MinMMR = 1000
 const MaxMMR = 3000
-const Variance = 100
+const Variance = 500
 const Movement = 3
 
 type Horse struct {

@@ -88,6 +88,7 @@ func (f *Field) postRaceMMRAdjustment() {
 			}
 		}
 
+		// TODO: might not need
 		// change in MMR plus total horse beaten
 		if totalSuperiorCount == 0 {
 			totalSuperiorCount++
