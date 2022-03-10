@@ -1,6 +1,8 @@
 package field
 
 import (
+	"math/rand"
+
 	"github.com/blavi/horse/simulation/horsedb"
 	"github.com/jmcvetta/randutil"
 	"github.com/rs/xid"
@@ -41,9 +43,14 @@ func (f *Field) Race() {
 
 func (f *Field) caclulateHorseWinProbability() {
 	for _, h := range f.horses {
-
-		h.WinProbability = float64(h.AvgMMR) / float64(f.totalMMR)
+		h.RaceDayAvg = h.AvgMMR + rand.Intn(horsedb.RacedayVariance*2)
 	}
+
+	for _, h := range f.horses {
+		h.WinProbability = float64(h.RaceDayAvg) / float64(f.totalMMR)
+
+	}
+
 }
 
 func (f *Field) setTotalMMR() {
