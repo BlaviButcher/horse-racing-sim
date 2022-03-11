@@ -48,14 +48,15 @@ func Load() func(cmd *cobra.Command, args []string) error {
 
 		totalMMR := 0
 		for _, h := range horses {
-			fmt.Printf("Name: %s\n", h.Name)
-			fmt.Printf("MMR: %d\n", h.MMR)
-			fmt.Printf("RawMMR: %d\n", h.RawMMR)
-			fmt.Printf("Avg MMR: %d\n", h.AvgMMR)
-			fmt.Printf("Genetic MMR: %d\n", h.GeneticMMR)
+			// fmt.Printf("Name: %s\n", h.Name)
+			// fmt.Printf("MMR: %d\n", h.MMR)
+			// fmt.Printf("RawMMR: %d\n", h.RawMMR)
+			// fmt.Printf("Avg MMR: %d\n", h.AvgMMR)
+			fmt.Println(h.AvgMMR)
+			// fmt.Printf("Genetic MMR: %d\n", h.GeneticMMR)
 			totalMMR += h.AvgMMR
 		}
-		fmt.Printf(`Mean: %d`, totalMMR/len(horses))
+		// fmt.Printf(`Mean: %d`, totalMMR/len(horses))
 
 		return nil
 

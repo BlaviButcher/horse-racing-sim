@@ -43,19 +43,19 @@ func (f *Field) Race() {
 
 func (f *Field) caclulateHorseWinProbability() {
 	for _, h := range f.horses {
+		h.WinProbability = float64(h.RaceDayAvg) / float64(f.totalMMR)
+
+	}
+}
+
+func (f *Field) setTotalMMR() {
+
+	for _, h := range f.horses {
 		h.RaceDayAvg = h.AvgMMR + rand.Intn(horsedb.RacedayVariance*2)
 	}
 
 	for _, h := range f.horses {
-		h.WinProbability = float64(h.RaceDayAvg) / float64(f.totalMMR)
-
-	}
-
-}
-
-func (f *Field) setTotalMMR() {
-	for _, h := range f.horses {
-		f.totalMMR += h.AvgMMR
+		f.totalMMR += h.RaceDayAvg
 	}
 }
 
@@ -131,5 +131,7 @@ func (f *Field) postRaceMMRAdjustment() {
 		h.AvgMMR = totalMMR / len(newMMR)
 
 		h.MMR = newMMR
+
+		h.MMRHistory = append(h.MMRHistory, h.RawMMR)
 	}
 }

@@ -1,1 +1,11 @@
 test-data
+horse-racer.com/.DS_Store
+horse-racer.com/node_modules
+horse-racer.com/build
+horse-racer.com/.svelte-kit
+horse-racer.com//package
+horse-racer.com/.env
+horse-racer.com/.env.*
+horse-racer.com/!.env.example
+horse-racer.com/.vercel
+horse-racer.com/.output

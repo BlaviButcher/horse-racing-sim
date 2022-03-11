@@ -7,17 +7,18 @@ import (
 	"github.com/vmihailenco/msgpack/v5"
 )
 
-const HistoryMMRKept = 100
+const HistoryMMRKept = 1
 const MinMMR = 1000
-const MaxMMR = 3000
+const MaxMMR = 10000
 const GeneticVariance = 500
 const RacedayVariance = GeneticVariance / 5
-const Movement = 3
+const Movement = 10
 
 type Horse struct {
 	ID             xid.ID
 	Name           string
 	MMR            []int
+	MMRHistory     []int
 	AvgMMR         int
 	RawMMR         int // Moves around based on previous race mmr + new change in mmr
 	MMRChange      int
@@ -45,6 +46,7 @@ func NewHorse(name string) *Horse {
 		WinProbability: 0,
 		MMRVariance:    GeneticVariance,
 		GeneticMMR:     startingMMR,
+		MMRHistory:     []int{},
 	}
 }
 
